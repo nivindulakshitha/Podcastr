@@ -8,9 +8,9 @@ export default function RootLayout({
 	return (
 		<div>
 			<main>
-				Left
+				<p className="text-white-1">LEFT</p>
 				{children}
-				Right
+				<p className="text-white-1">RIGHT</p>
 			</main>
 		</div>
 	);
