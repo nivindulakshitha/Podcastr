@@ -1,5 +1,5 @@
 'use client';
-import { sidebarItems } from '@/constants'
+import { sidebarLinks } from '@/constants'
 import { cn } from '@/lib/utils';
 import Image from 'next/image'
 import Link from 'next/link'
@@ -19,7 +19,7 @@ const SideBar = () => {
 				</Link>
 
 				{
-					sidebarItems.map(({ label, route, imgURL }) => {
+					sidebarLinks.map(({ label, route, imgURL }) => {
 						const isActive = pathname === route || pathname.startsWith(`${route}/`);
 
 						return (
