@@ -7,8 +7,8 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<main className="relative h-screen w-full">
-			<div className="absolute size-fuli">
+		<main className="flex relative h-screen w-full">
+			<div className="absolute size-full">
 				<Image src={"/images/bg-img.png"} className="size-full" layout="fill" alt="" />
 			</div>
 			{children}
