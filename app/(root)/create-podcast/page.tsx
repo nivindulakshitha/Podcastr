@@ -36,27 +36,28 @@ const CreatePodcast = () => {
 	})
 
 	return (
-		<section>
+		<section className="mt-10 flex flex-col">
 			<h1 className="text-20 font-bold text-white-1">Create Podcasts</h1>
 			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-					<FormField
-						control={form.control}
-						name="username"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Username</FormLabel>
-								<FormControl>
-									<Input placeholder="shadcn" {...field} />
-								</FormControl>
-								<FormDescription>
-									This is your public display name.
-								</FormDescription>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<Button type="submit">Submit</Button>
+				<form onSubmit={form.handleSubmit(onSubmit)} className="mt-12 flex w-full flex-col">
+					<div className="flex flex-col gap-[30px] border-b border-black-5 pb-10">
+						<FormField
+							control={form.control}
+							name="podcastTitle"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel className="text-16 font-bold text-white-1">Username</FormLabel>
+									<FormControl>
+										<Input className='input-class focus-visible:ring-orange-1' placeholder="My Podcast" {...field} />
+									</FormControl>
+									<FormDescription>
+										This is your public display name.
+									</FormDescription>
+									<FormMessage className="text-white-1" />
+								</FormItem>
+							)}
+						/>
+					</div>
 				</form>
 			</Form>
 		</section>
