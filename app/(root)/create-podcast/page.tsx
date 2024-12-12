@@ -28,9 +28,11 @@ import { Label } from '@/components/ui/label'
 import { cn } from '@/lib/utils'
 import GeneratePodcast from '@/components/GeneratePodcast'
 import GenerateThumbnail from '@/components/GenerateThumbnail'
+import { Button } from '@/components/ui/button'
+import { Loader } from 'lucide-react'
+import { Id } from '@/convex/_generated/dataModel'
 
 const voiceCategories = ['alloy', 'shimmer', 'nova', 'echo', 'fable', 'onyx']
-
 
 const CreatePodcast = () => {
 	const formSchema = z.object({
@@ -48,6 +50,17 @@ const CreatePodcast = () => {
 			podcastDescription: "",
 		},
 	})
+
+	const [imagePrompt, setImagePrompt] = useState('')
+	const [imageUrl, setImageUrl] = useState('')
+	const [audioUrl, setAudioUrl] = useState('')
+	const [audioDuration, setAudioDuration] = useState(0)
+	const [audioStorageId, setAudioStorageId] = useState<Id<"_storage"> | null>(null)
+	const [imageStorageId, setImageStorageId] = useState<Id<"_storage"> | null>(null)
+	const [voicePrompt, setVoicePrompt] = useState('')
+
+
+	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	const [voiceType, setVoiceType] = useState<String | null>()
 
@@ -114,8 +127,30 @@ const CreatePodcast = () => {
 					</div>
 
 					<div className="flex flex-col pt-10">
-						<GeneratePodcast />
+						<GeneratePodcast
+							setAudioStorageId={setAudioStorageId}
+							audioUrl={audioUrl}
+							setAudioUrl={setAudioUrl}
+							setAudioDuration={setAudioDuration}
+							voiceType={voiceType}
+							voicePrompt={voicePrompt}
+							setVoicePrompt={setVoicePrompt}
+
+						/>
 						<GenerateThumbnail />
+
+						<div className="mt-10 w-full">
+							<Button type="submit" className="text-16 w-full bg-orange-1 py-4 font-extrabold text-white-1 transition-all duration-500 hover:bg-black-1">
+								{ 
+									isSubmitting ? (
+										<>
+											Submitting...
+											<Loader size={20} className="animate-spin ml-2" />
+										</>
+									) : ("Submit and publish podcast")
+								}
+							</Button>
+						</div>
 					</div>
 				</form>
 			</Form>
