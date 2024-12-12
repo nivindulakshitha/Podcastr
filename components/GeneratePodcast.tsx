@@ -3,8 +3,8 @@ import React from 'react'
 
 const GeneratePodcast = ({
 	setAudioStorageId,
-	audioUrl,
-	setAudioUrl,
+	audio,
+	setAudio,
 	setAudioDuration,
 	voiceType,
 	voicePrompt,

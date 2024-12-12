@@ -62,7 +62,7 @@ const CreatePodcast = () => {
 
 	const [isSubmitting, setIsSubmitting] = useState(false)
 
-	const [voiceType, setVoiceType] = useState<String | null>()
+	const [voiceType, setVoiceType] = useState<string>('alloy')
 
 	return (
 		<section className="mt-10 flex flex-col">
@@ -129,8 +129,8 @@ const CreatePodcast = () => {
 					<div className="flex flex-col pt-10">
 						<GeneratePodcast
 							setAudioStorageId={setAudioStorageId}
-							audioUrl={audioUrl}
-							setAudioUrl={setAudioUrl}
+							audio={audioUrl}
+							setAudio={setAudioUrl}
 							setAudioDuration={setAudioDuration}
 							voiceType={voiceType}
 							voicePrompt={voicePrompt}
