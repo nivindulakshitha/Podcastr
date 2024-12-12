@@ -26,6 +26,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from '@/components/ui/label'
 import { cn } from '@/lib/utils'
+import GeneratePodcast from '@/components/GeneratePodcast'
+import GenerateThumbnail from '@/components/GenerateThumbnail'
 
 const voiceCategories = ['alloy', 'shimmer', 'nova', 'echo', 'fable', 'onyx']
 
@@ -109,6 +111,11 @@ const CreatePodcast = () => {
 								</FormItem>
 							)}
 						/>
+					</div>
+
+					<div className="flex flex-col pt-10">
+						<GeneratePodcast />
+						<GenerateThumbnail />
 					</div>
 				</form>
 			</Form>
