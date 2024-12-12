@@ -4,18 +4,23 @@ import { Textarea } from './ui/textarea'
 import { Label } from './ui/label'
 import { Button } from './ui/button'
 import { Loader } from 'lucide-react'
-import { useAction } from 'convex/react'
+import { useAction, useMutation } from 'convex/react'
 import { api } from '@/convex/_generated/api'
+import { generateUploadUrl } from '@/convex/files'
+import { useUploadFiles } from "@xixixao/uploadstuff/react"
 
 const useGeneratePodcast = ({
 	setAudio,
 	setAudioStorageId,
 	setAudioDuration,
-	setVoicePrompt, 
+	setVoicePrompt,
 	voicePrompt,
 	voiceType
 }: GeneratePodcastProps) => {
 	const [isGenerating, setIsGenerating] = useState(false)
+	const generateUploadUrl = useMutation(api.files.generateUploadUrl)
+	const getAudioUrl = useMutation(api.podcasts.getUrl)
+	const { startUploading } = useUploadFiles(generateUploadUrl)
 
 	const getPodcastAudio = useAction(api.openai.generateAudioAction)
 
@@ -29,11 +34,17 @@ const useGeneratePodcast = ({
 
 		try {
 			const response = await getPodcastAudio({ type: voiceType, input: voicePrompt })
-			
+
 			const blob = new Blob([response], { type: 'audio/mpeg' })
 			const fileName = `podcast-${Date.now()}.mp3`
 
-			const file = new File([blob], fileName, {type: 'audio/mpeg'})
+			const file = new File([blob], fileName, { type: 'audio/mpeg' })
+			const uploader = await startUploading([file])
+
+			const storageId = (uploader[0].response as any).storageId
+			setAudioStorageId(storageId)
+
+			const auidoUrl = await getAudioUrl({ storageId })
 		} catch (error) {
 			console.error(error)
 			return setIsGenerating(false)
@@ -55,7 +66,7 @@ const GeneratePodcast = (props: GeneratePodcastProps) => {
 					AI prompt to generate Podcast
 				</ Label>
 
-				<Textarea className="input-class font-light focus:ring-offset-orange-1" placeholder='Provide text to generate audio' rows={5} value={props.voicePrompt} onChange={event => props.setVoicePrompt(event.target.value)}/>
+				<Textarea className="input-class font-light focus:ring-offset-orange-1" placeholder='Provide text to generate audio' rows={5} value={props.voicePrompt} onChange={event => props.setVoicePrompt(event.target.value)} />
 
 			</div>
 			<div className="mt-5 w-full max-w-[200px]">
