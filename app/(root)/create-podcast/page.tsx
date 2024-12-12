@@ -1,15 +1,21 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select"
 
-import { Button } from "@/components/ui/button"
+
 import {
 	Form,
 	FormControl,
-	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
@@ -17,6 +23,9 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Label } from '@/components/ui/label'
+import { cn } from '@/lib/utils'
+
+const voiceCategories = ['alloy', 'shimmer', 'nova', 'echo', 'fable', 'onyx']
 
 
 const CreatePodcast = () => {
@@ -36,6 +45,8 @@ const CreatePodcast = () => {
 		},
 	})
 
+	const [voiceType, setVoiceType] = useState<String | null>()
+
 	return (
 		<section className="mt-10 flex flex-col">
 			<h1 className="text-20 font-bold text-white-1">Create Podcasts</h1>
@@ -51,9 +62,6 @@ const CreatePodcast = () => {
 									<FormControl>
 										<Input className='input-class focus-visible:ring-orange-1' placeholder="My Podcast" {...field} />
 									</FormControl>
-									<FormDescription>
-										This is your public display name.
-									</FormDescription>
 									<FormMessage className="text-white-1" />
 								</FormItem>
 							)}
@@ -63,8 +71,42 @@ const CreatePodcast = () => {
 							<Label className="text-16 font-bold text-white-1">
 								Select AI Voice
 							</Label>
-							
+
+							<Select onValueChange={value => setVoiceType(value)}>
+								<SelectTrigger className={cn('text-16 w-full border-none bg-black-1 text-gray-1')}>
+									<SelectValue placeholder="Select AI Voice" className='placeholder:text-gray-1' />
+								</SelectTrigger>
+								<SelectContent className='bg-black-1 text-16 border-none font-bold text-white-1 focus:ring-orange-1'>
+									{voiceCategories.map((voice) => (
+										<SelectItem key={voice} value={voice} className='capitalize focus:bg-orange-1'>
+											{voice}
+										</SelectItem>
+									))}
+								</SelectContent>
+								{
+									voiceType && (
+										<audio src={`/${voiceType}.mp3`}
+											autoPlay
+											className='hidden'
+										/>
+									)
+								}
+							</Select>
 						</div>
+
+						<FormField
+							control={form.control}
+							name="podcastDescription"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel className="text-16 font-bold text-white-1">Description</FormLabel>
+									<FormControl>
+										<Input className='input-class focus-visible:ring-orange-1' placeholder="My Podcast" {...field} />
+									</FormControl>
+									<FormMessage className="text-white-1" />
+								</FormItem>
+							)}
+						/>
 					</div>
 				</form>
 			</Form>
