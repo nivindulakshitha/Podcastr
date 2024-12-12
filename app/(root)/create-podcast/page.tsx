@@ -12,6 +12,8 @@ import {
 	SelectValue,
 } from "@/components/ui/select"
 
+import { Textarea } from "@/components/ui/textarea"
+
 
 import {
 	Form,
@@ -30,9 +32,8 @@ const voiceCategories = ['alloy', 'shimmer', 'nova', 'echo', 'fable', 'onyx']
 
 const CreatePodcast = () => {
 	const formSchema = z.object({
-		username: z.string().min(2, {
-			message: "Username must be at least 2 characters.",
-		}),
+		podcastTitle: z.string().min(2),
+		podcastDescription: z.string().min(2),
 	})
 	function onSubmit(values: z.infer<typeof formSchema>) {
 		console.log(values)
@@ -41,7 +42,8 @@ const CreatePodcast = () => {
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			username: "",
+			podcastTitle: "",
+			podcastDescription: "",
 		},
 	})
 
@@ -101,7 +103,7 @@ const CreatePodcast = () => {
 								<FormItem>
 									<FormLabel className="text-16 font-bold text-white-1">Description</FormLabel>
 									<FormControl>
-										<Input className='input-class focus-visible:ring-orange-1' placeholder="My Podcast" {...field} />
+										<Textarea className='input-class focus-visible:ring-orange-1' placeholder="Write a short podcast description" {...field} />
 									</FormControl>
 									<FormMessage className="text-white-1" />
 								</FormItem>
