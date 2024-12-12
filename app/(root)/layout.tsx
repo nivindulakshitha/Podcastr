@@ -2,6 +2,7 @@ import LeftSideBar from "@/components/LeftSideBar";
 import MobileNav from "@/components/MobileNav";
 import RightSideBar from "@/components/RightSideBar";
 import Image from "next/image";
+import { useToast } from "@/hooks/use-toast";
 
 export default function RootLayout({
 	children,
