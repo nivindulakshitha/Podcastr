@@ -2,17 +2,22 @@ import { action } from "./_generated/server";
 import { v } from "convex/values";
 
 import OpenAi from "openai";
+import { SpeechCreateParams } from "openai/resources/audio/speech.mjs";
 
-const openai = new OpenAi(process.env.OPENAI_API_KEY);
+const openai = new OpenAi({
+	apiKey: process.env.OPENAI_API_KEY,
+});
 
 export const generateAudioAction = action({
 	args: { input: v.string(), type: v.string() },
-	handler: async (_, args) => {
+	handler: async (_, { input, type }) => {
 		const mp3 = await openai.audio.speech.create({
 			model: "tts-1",
-			voice: "alloy",
-			input: "Today is a wonderful day to build something people love!",
+			voice:  type as SpeechCreateParams["voice"],
+			input,
 		});
-		return "success";
+
+		const buffer = await mp3.arrayBuffer();
+		return buffer;
 	},
 });
