@@ -5,11 +5,34 @@ import { Label } from './ui/label'
 import { Button } from './ui/button'
 import { Loader } from 'lucide-react'
 
-const useGeneratePodcast = (props: GeneratePodcastProps) => {
-	const handleGeneratePodcast = async () => { }
+const useGeneratePodcast = ({
+	setAudio,
+	setAudioStorageId,
+	setAudioDuration,
+	setVoicePrompt, 
+	voicePrompt,
+	voiceType
+}: GeneratePodcastProps) => {
+	const [isGenerating, setIsGenerating] = useState(false)
+
+	const generatePodcast = async () => {
+		setIsGenerating(true)
+		setAudio('')
+
+		if (!voicePrompt) {
+			return setIsGenerating(false)
+		}
+
+		try {
+			const response = await getPodcastAudio({voice: voiceType, input: voicePrompt})
+		} catch (error) {
+			console.error(error)
+			return setIsGenerating(false)
+		}
+	}
 	return {
-		isGenerating: false,
-		generatePodcast: () => {}
+		isGenerating,
+		generatePodcast
 	}
 }
 
