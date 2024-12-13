@@ -11,6 +11,7 @@ import { useToast } from '@/hooks/use-toast'
 import { useUploadFiles } from '@xixixao/uploadstuff/react'
 import { useMutation } from 'convex/react'
 import { api } from '@/convex/_generated/api'
+import { buffer } from 'stream/consumers'
 
 const GenerateThumbnail = ({ setImageStorageId,
 	image,
@@ -53,7 +54,23 @@ const GenerateThumbnail = ({ setImageStorageId,
 	}
 	const generateThumbnail = async () => { }
 	const uploadImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
+		event.preventDefault()
 
+		try {
+			const file = event.target.files?.[0]
+			if (!file) return
+
+			const blob = await file.arrayBuffer()
+				.then(buffer => new Blob([buffer]))
+			
+			handleImage(blob, file.name)
+		} catch (error) {
+			console.error(error)
+			toast({
+				title: 'Error uploading image',
+				variant: 'destructive',
+			})
+		}
 	}
 
 	return (
