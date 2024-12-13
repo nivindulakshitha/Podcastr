@@ -9,6 +9,10 @@ const nextConfig = {
 			{
 				protocol: "https",
 				hostname: "placehold.co"
+			},
+			{
+				protocol: "https",
+				hostname: "hidden-labrador-178.convex.cloud"
 			}
 		]
 	}
